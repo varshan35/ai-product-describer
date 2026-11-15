@@ -96,6 +96,15 @@ CORPUS = [
     "Packable travel pillow with memory foam support and a removable washable cover.",
     "Stainless steel camp cookware set that nests together and fits inside a single mesh bag.",
 
+    # Custom boutique additions
+    (
+        "Handmade artisan espresso cup with ceramic glaze and raw clay base for"
+        " coffee lovers."
+    ),
+    (
+        "Custom engraved wooden phone dock with built-in cable management for"
+        " nightstands."
+    ),
     # Fitness and wellness
     "Non-slip natural rubber yoga mat with alignment lines and a lightweight carrying strap.",
     "Adjustable dumbbell set that replaces fifteen weights and saves space in small apartments.",

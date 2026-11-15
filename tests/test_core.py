@@ -278,3 +278,15 @@ def test_cli_reports_errors(tmp_path):
               output_fn=out.append)
   assert code == 1
   assert out[0].startswith("Error")
+
+def test_custom_product_generation(tiny_trained):
+  """Tests that the model handles novel boutique product prompts."""
+  text = generate_description(
+      tiny_trained["model"],
+      tiny_trained["tokenizer"],
+      prompt="handmade ceramic",
+      max_new_tokens=12,
+      seed=42,
+  )
+  assert isinstance(text, str)
+  assert "handmade" in text.lower()

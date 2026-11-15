@@ -1,4 +1,9 @@
 """Command-line entry point: `python -m app.cli --help`."""
+"""CLI entry point for AI Product Describer."""
+from app.core import main
+
+if __name__ == "__main__":
+  raise SystemExit(main())
 import argparse
 
 

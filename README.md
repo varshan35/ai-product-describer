@@ -1,52 +1,49 @@
 # AI Product Describer
 
-This AI Product Describer is a CLI tool designed for small business owners in the retail domain. It generates creative product descriptions for inventory by training a custom GPT on examples of existing product texts.
+A decoder-only transformer language model built and trained from scratch in PyTorch to generate e-commerce product descriptions.
 
-## What you are building
+## Overview
 
-**Goal.** You will have built a command-line interface (CLI) tool that generates creative product descriptions for small business owners by training a custom GPT model on example texts.
+The model implements a complete autoregressive transformer pipeline:
+- **Tokenizer**: Byte-Pair Encoding (BPE) subword tokenizer with special tokens (`<pad>`, `<unk>`, `<bos>`, `<eos>`).
+- **Architecture**: Learned token and positional embeddings, multi-head causal self-attention with lower-triangular masking, and pre-norm residual transformer blocks.
+- **Decoding**: Autoregressive generation with temperature scaling and top-k sampling.
+- **Persistence**: Model weights and tokenizer state are saved to disk (`mini_gpt.pt`) for fast inference.
 
-**Done when.** The project is done when you can apply the byte-pair tokenizer and embeddings to prepare raw text, implement causal self-attention, assemble the transformer block, and train your custom GPT model from scratch to generate coherent product descriptions via a functional CLI.
-
-## Milestones
-
-Tick these off as you go, and commit after each one.
-
-- [ ] **1. Collect a small corpus of product descriptions for a specific category.**  
-      Hint: Collect a focused dataset of product descriptions for a single category.
-- [ ] **2. Implement the byte-pair tokenizer and generate embeddings for product text.**  
-      Hint: Implement the byte-pair encoding (BPE) algorithm and create embedding layers.
-- [ ] **3. Build the causal self-attention mechanism and assemble the transformer block.**  
-      Hint: Construct the self-attention mechanism with a causal mask and stack it into a Transformer block.
-- [ ] **4. Train the GPT model using the collected product descriptions.**  
-      Hint: Train your GPT model using a language modeling objective on your collected corpus.
-- [ ] **5. Implement a text generation feature that creates new product descriptions from a prompt.**  
-      Hint: Implement a sampling strategy (e.g., top-k or nucleus sampling) to generate new text.
-- [ ] **6. Develop a CLI for users to input product details and receive generated descriptions.**  
-      Hint: Use a Python library like `argparse` to build the command-line interface.
-
-## Run it
-
-You need Python 3.12 and git.
+## Installation
 
 ```bash
-python3.12 -m venv .venv && source .venv/bin/activate
+git clone https://github.com/varshan35/ai-product-describer.git
+cd ai-product-describer
 pip install -r requirements.txt
-cp .env.example .env        # then choose a model; see the comments inside
-python -m app.cli hello
+```
+
+## Usage
+
+Generate descriptions from the command line:
+
+```bash
+# Standard generation
+python -m app.cli generate "vintage leather"
+
+# Adjust length and sampling temperature
+python -m app.cli generate "wireless headphones" -n 40 -t 0.7 --top-k 5
+
+# Reproducible output using a seed
+python -m app.cli generate "ceramic mug" --seed 42
+```
+
+To view all available options:
+```bash
+python -m app.cli generate --help
+```
+
+## Testing
+
+Run the automated test suite:
+
+```bash
 pytest
 ```
 
-Your work goes in `app/core.py` (one stub per milestone) and `tests/test_core.py`. The first tests pass already; they
-check the plumbing.
-
-## Settings and secrets
-
-Model settings live in `.env`, which is ignored by git. **Never commit `.env` or paste a key into code.** If a key ever
-reaches GitHub, treat it as leaked and make a new one.
-
-## Stretch ideas
-
-- Allow the CLI to specify desired length or tone for the generated descriptions.
-- Extend the CLI to manage multiple product categories or save generated descriptions to a file.
-- Experiment with different training parameters or model sizes to optimize description quality.
+All 30 unit and integration tests cover tokenization roundtrips, attention causality, training loss reduction, checkpoint caching, and CLI functionality.
